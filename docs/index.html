@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation &mdash; Tuis</title>
+  <meta name="description" content="Installation guide, configuration, and self-hosting documentation for Tuis.">
+  <link rel="stylesheet" href="/style.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+</head>
+<body>
+
+<header class="docs-header">
+  <div class="container">
+    <p class="breadcrumb"><a href="/">tuis</a> / docs</p>
+    <h1>Documentation</h1>
+  </div>
+</header>
+
+<div class="container">
+  <div class="docs-layout">
+    <main class="docs-body">
+
+      <!-- Installation -->
+      <h2 id="installation">Installation</h2>
+      <p>Tuis is distributed as a Docker image. The recommended way to run it is with Docker Compose.</p>
+
+      <h3 id="docker-compose">Docker Compose</h3>
+      <p>Create a <code>docker-compose.yml</code> file:</p>
+      <pre><code>services:
+  tuis:
+    image: ghcr.io/3stacks/tuis:latest
+    container_name: tuis
+    restart: unless-stopped
+    ports:
+      - "6969:3000"
+    volumes:
+      - tuis-data:/app/data
+    environment:
+      - NODE_ENV=production
+
+volumes:
+  tuis-data:</code></pre>
+
+      <p>Then start it:</p>
+      <pre><code>docker compose up -d</code></pre>
+
+      <p>Tuis will be available at <code>http://your-server:6969</code>. All data is stored in a SQLite database inside the <code>tuis-data</code> volume.</p>
+
+      <h3 id="demo-data">Demo data</h3>
+      <p>If you want to explore Tuis before entering your own data, you can seed it with demo data:</p>
+      <pre><code>docker exec tuis npm run seed:demo</code></pre>
+
+      <h3 id="updating">Updating</h3>
+      <pre><code><span class="comment"># Pull the latest image</span>
+docker compose pull
+
+<span class="comment"># Restart with the new version</span>
+docker compose up -d</code></pre>
+      <p>Your data is stored in a Docker volume and will persist across updates.</p>
+
+      <!-- Self-Hosting -->
+      <h2 id="self-hosting">Self-hosting</h2>
+
+      <div class="callout">
+        <p>Tuis is designed to run on your home network. Your household data &mdash; chores, meal plans, shopping lists, vendor details, financial quotes &mdash; stays on hardware you control. There are no cloud accounts, no telemetry, and no external dependencies.</p>
+      </div>
+
+      <h3 id="network-access">Network access</h3>
+      <p>Tuis is designed to be accessed via a WireGuard VPN. We use <a href="https://tailscale.com">Tailscale</a>, which takes about five minutes to set up and gives every device on your tailnet a stable IP. This means your data never leaves your network &mdash; no cloud accounts, no subscriptions, no data harvesting.</p>
+      <p>With Tailscale, you can access Tuis from your phone at the shops, from work, or from anywhere &mdash; without exposing any ports to the public internet.</p>
+
+      <h3 id="reverse-proxy">Reverse proxy (HTTPS)</h3>
+      <p>If you want HTTPS within your network (recommended), put Tuis behind a reverse proxy. <a href="https://caddyserver.com">Caddy</a> handles automatic TLS with minimal configuration:</p>
+      <pre><code>chores.home.yourdomain.com {
+    reverse_proxy tuis:3000
+}</code></pre>
+      <p>Caddy will automatically provision and renew certificates. Pair this with a local DNS entry (e.g. via Pi-hole or your router) pointing <code>chores.home.yourdomain.com</code> to your server's IP.</p>
+
+      <h3 id="backups">Backups</h3>
+      <p>Tuis stores everything in a single SQLite database inside the Docker volume. To back it up:</p>
+      <pre><code><span class="comment"># Copy the database out of the volume</span>
+docker cp tuis:/app/data/chore-calendar.db ./backup-$(date +%Y%m%d).db</code></pre>
+      <p>Or mount the volume to a host path and include it in your regular backup routine (rsync, borg, restic, etc.).</p>
+
+      <!-- iOS Companion -->
+      <h2 id="ios-companion">iOS companion app</h2>
+      <p>Tuis has a native iOS companion app for quick access to shopping lists and meal planning on the go. It connects directly to your Tuis server over your local network or VPN.</p>
+
+      <p>Current features:</p>
+      <ul>
+        <li>Shopping lists with add, check-off, and swipe-to-delete</li>
+        <li>Weekly meal planner with recipe picker and servings scaling</li>
+        <li>Aggregated weekly ingredients with "add missing to shopping list"</li>
+        <li>Ingredient scaling with smart formatting</li>
+      </ul>
+
+      <p>Planned features include location-aware shopping notifications, Apple Watch companion, Siri Shortcuts, and home screen widgets.</p>
+
+      <p>Source code: <a href="https://github.com/3stacks/tuis-ios">github.com/3stacks/tuis-ios</a></p>
+
+      <!-- Configuration -->
+      <h2 id="configuration">Configuration</h2>
+
+      <h3 id="environment-variables">Environment variables</h3>
+      <table class="env-table">
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>NODE_ENV</code></td>
+            <td><code>production</code></td>
+            <td>Set to <code>production</code> for deployed instances</td>
+          </tr>
+          <tr>
+            <td><code>WEB_PORT</code></td>
+            <td><code>6969</code></td>
+            <td>Host port mapping (the container always listens on 3000)</td>
+          </tr>
+          <tr>
+            <td><code>NEXTAUTH_URL</code></td>
+            <td><code>http://localhost:3000</code></td>
+            <td>The URL where Tuis is accessible (used for auth callbacks)</td>
+          </tr>
+          <tr>
+            <td><code>NEXTAUTH_SECRET</code></td>
+            <td>&mdash;</td>
+            <td>A random secret for signing session tokens. Generate with <code>openssl rand -hex 32</code></td>
+          </tr>
+          <tr>
+            <td><code>ACTUAL_API_URL</code></td>
+            <td><code>http://localhost:3100</code></td>
+            <td>URL of your Actual Budget server (for budget integration)</td>
+          </tr>
+          <tr>
+            <td><code>GOOGLE_CLIENT_ID</code></td>
+            <td>&mdash;</td>
+            <td>Google OAuth client ID (optional, for Google sign-in)</td>
+          </tr>
+          <tr>
+            <td><code>GOOGLE_CLIENT_SECRET</code></td>
+            <td>&mdash;</td>
+            <td>Google OAuth client secret</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 id="actual-budget">Actual Budget integration</h3>
+      <p>Tuis integrates with <a href="https://actualbudget.org">Actual Budget</a> to display your home maintenance budget alongside vendor quotes. This helps you make informed decisions about home repairs and improvements.</p>
+      <p>To enable it, set <code>ACTUAL_API_URL</code> to your Actual Budget server address. If you run both on the same Docker network, you can use the container name:</p>
+      <pre><code>environment:
+  - ACTUAL_API_URL=http://actual:5006</code></pre>
+
+      <h3 id="full-compose">Full Docker Compose example</h3>
+      <p>Here's a complete example with all optional environment variables:</p>
+      <pre><code>services:
+  tuis:
+    image: ghcr.io/3stacks/tuis:${TUIS_VERSION:-latest}
+    container_name: tuis
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-6969}:3000"
+    volumes:
+      - tuis-data:/app/data
+    environment:
+      - NODE_ENV=production
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - ACTUAL_API_URL=${ACTUAL_API_URL:-http://localhost:3100}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+
+volumes:
+  tuis-data:</code></pre>
+
+      <!-- Tech Stack -->
+      <h2 id="tech-stack">Tech stack</h2>
+      <ul>
+        <li><strong>Framework:</strong> Next.js 16 with React 19</li>
+        <li><strong>Database:</strong> SQLite with Drizzle ORM</li>
+        <li><strong>UI:</strong> Tailwind CSS + Radix UI (shadcn/ui)</li>
+        <li><strong>Testing:</strong> Vitest (unit) + Playwright (e2e)</li>
+        <li><strong>Container:</strong> Docker (single image, single volume)</li>
+        <li><strong>iOS:</strong> Native SwiftUI app (<a href="https://github.com/3stacks/tuis-ios">tuis-ios</a>)</li>
+      </ul>
+
+    </main>
+
+    <nav class="docs-toc">
+      <h4>On this page</h4>
+      <a href="#installation">Installation</a>
+      <a href="#docker-compose">Docker Compose</a>
+      <a href="#demo-data">Demo data</a>
+      <a href="#updating">Updating</a>
+      <a href="#self-hosting">Self-hosting</a>
+      <a href="#network-access">Network access</a>
+      <a href="#reverse-proxy">Reverse proxy</a>
+      <a href="#backups">Backups</a>
+      <a href="#ios-companion">iOS companion</a>
+      <a href="#configuration">Configuration</a>
+      <a href="#environment-variables">Environment variables</a>
+      <a href="#actual-budget">Actual Budget</a>
+      <a href="#full-compose">Full compose example</a>
+      <a href="#tech-stack">Tech stack</a>
+    </nav>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <nav class="footer-nav">
+      <a href="/">Home</a>
+      <span class="footer-sep" aria-hidden="true">&middot;</span>
+      <a href="https://github.com/3stacks/tuis">GitHub</a>
+      <span class="footer-sep" aria-hidden="true">&middot;</span>
+      <a href="https://github.com/3stacks/tuis-ios">iOS Companion</a>
+    </nav>
+    <p class="footer-copy"><em>Tuis</em> &mdash; Afrikaans for "at home" &middot; Built by <a href="https://lukeboyle.com">Luke Boyle</a></p>
+  </div>
+</footer>
+
+<button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+  <span class="icon-sun">&#x2600;</span>
+  <span class="icon-moon">&#x1F319;</span>
+</button>
+
+<script>
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme');
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+</script>
+
+</body>
+</html>

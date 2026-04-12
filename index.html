@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tuis &mdash; your home, your data</title>
+  <meta name="description" content="Self-hosted household management that stays on your network. Chores, meals, shopping, recipes, appliances, vendors, quotes, and budgeting &mdash; all in one place, all under your control.">
+  <link rel="stylesheet" href="/style.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container">
+    <h1>tuis<span class="dot">.</span></h1>
+    <p class="tagline">Your home, your data. Household management that stays on your network.</p>
+    <nav class="hero-nav">
+      <a href="/docs/" class="hero-nav__primary">Get Started</a>
+      <span class="hero-nav__sep" aria-hidden="true">&middot;</span>
+      <a href="#features">Features</a>
+      <span class="hero-nav__sep" aria-hidden="true">&middot;</span>
+      <a href="#screenshots">Screenshots</a>
+      <span class="hero-nav__sep" aria-hidden="true">&middot;</span>
+      <a href="https://github.com/3stacks/tuis" class="github-link" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- Pitch -->
+<section class="pitch">
+  <div class="container">
+    <p class="pitch-intro">
+      <strong>Tuis</strong> is Afrikaans for <em>"at home"</em> &mdash; and that's exactly where your data belongs. A self-hosted household management app built with Next.js and SQLite. No cloud accounts, no subscriptions, no data harvesting. Just a single container on your home network that handles everything a household needs.
+    </p>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- Features -->
+<section id="features" class="pitch">
+  <div class="container">
+    <h2>What it <span class="accent">does</span></h2>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">&#x2611;</div>
+        <h3>Chores</h3>
+        <p>Recurring tasks with area/frequency filters, status grouping, completion tracking, and snooze. Never argue about who cleaned the bathroom last.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#x1F372;</div>
+        <h3>Meal Planning</h3>
+        <p>Weekly meal planner with recipe picker, custom meals, servings multiplier, and ingredient aggregation for shopping lists.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#x1F6D2;</div>
+        <h3>Shopping Lists</h3>
+        <p>Multiple colour-coded lists with items, quantities, check-off, autocomplete, and one-tap "add missing ingredients" from meals.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#x1F4D6;</div>
+        <h3>Recipes</h3>
+        <p>Structured recipe library with ingredients (amount, unit, section), prep/cook times, and automatic scaling.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#x1F3E0;</div>
+        <h3>Appliances</h3>
+        <p>Track brand, model, warranty dates, linked chores, and service history. Know when things were last serviced.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#x1F527;</div>
+        <h3>Vendors &amp; Quotes</h3>
+        <p>Manage service providers with ratings and job history. Compare quotes with labour/materials breakdown side by side.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#x1F4B0;</div>
+        <h3>Budgeting</h3>
+        <p>Integrates with Actual Budget for home maintenance spend tracking. See your budget alongside vendor quotes.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#x1F4CA;</div>
+        <h3>Stats &amp; Insights</h3>
+        <p>Task completion analytics with trends, area breakdown, and household contribution tracking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- Principles -->
+<section class="principles">
+  <div class="container">
+    <h2>Why <span class="accent">self-host</span></h2>
+    <div class="principles-grid">
+      <div class="principle">
+        <h3>Data sovereignty</h3>
+        <p>Your household data stays in a SQLite file on your server. No third-party databases, no analytics, no telemetry. You own it completely.</p>
+      </div>
+      <div class="principle">
+        <h3>No cloud dependency</h3>
+        <p>Runs entirely on your local network. Access it via a VPN like Tailscale when you're out. If the internet goes down, Tuis doesn't.</p>
+      </div>
+      <div class="principle">
+        <h3>No subscriptions</h3>
+        <p>Deploy once, use forever. No monthly fees, no feature gates, no premium tiers. The full app is the only tier.</p>
+      </div>
+      <div class="principle">
+        <h3>Simple backup</h3>
+        <p>One SQLite file, one Docker volume. Back it up however you like &mdash; rsync, borg, or just copy it to a USB drive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- Screenshots -->
+<section id="screenshots" class="screenshots">
+  <div class="container container--wide">
+    <h2>See it in <span class="accent">action</span></h2>
+    <div class="screenshot-grid">
+      <figure class="screenshot-card">
+        <!-- Replace src with actual screenshot path when available -->
+        <div class="placeholder">screenshots/01-dashboard.png</div>
+        <figcaption>Dashboard &mdash; stats overview, tonight's meal, shopping progress, and task sections</figcaption>
+      </figure>
+      <figure class="screenshot-card">
+        <div class="placeholder">screenshots/02-tasks.png</div>
+        <figcaption>Chores &mdash; area/frequency filters, status grouping, completion and snooze</figcaption>
+      </figure>
+      <figure class="screenshot-card">
+        <div class="placeholder">screenshots/03-shopping.png</div>
+        <figcaption>Shopping lists &mdash; colour-coded lists with autocomplete and check-off</figcaption>
+      </figure>
+      <figure class="screenshot-card">
+        <div class="placeholder">screenshots/04-meals.png</div>
+        <figcaption>Meal planner &mdash; weekly view with recipe picker and servings scaling</figcaption>
+      </figure>
+      <figure class="screenshot-card">
+        <div class="placeholder">screenshots/05-recipes.png</div>
+        <figcaption>Recipe library &mdash; structured ingredients, prep/cook times, scaling</figcaption>
+      </figure>
+      <figure class="screenshot-card">
+        <div class="placeholder">screenshots/08-quotes.png</div>
+        <figcaption>Quotes &mdash; vendor comparison with labour/materials breakdown</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<!-- Quick Install -->
+<section class="install" id="install">
+  <div class="container">
+    <h2>Get <span class="accent">started</span></h2>
+    <pre><code><span class="comment"># Create a directory for Tuis</span>
+mkdir tuis && cd tuis
+
+<span class="comment"># Download the compose file</span>
+curl -O https://raw.githubusercontent.com/3stacks/tuis/main/deploy/docker-compose.yml
+
+<span class="comment"># Start it up</span>
+docker compose up -d</code></pre>
+    <p>Then open <code>http://your-server:6969</code> in your browser. That's it.</p>
+    <p>See the <a href="/docs/">full documentation</a> for environment variables, Actual Budget integration, and reverse proxy setup.</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <nav class="footer-nav">
+      <a href="/docs/">Docs</a>
+      <span class="footer-sep" aria-hidden="true">&middot;</span>
+      <a href="https://github.com/3stacks/tuis">GitHub</a>
+      <span class="footer-sep" aria-hidden="true">&middot;</span>
+      <a href="https://github.com/3stacks/tuis-ios">iOS Companion</a>
+    </nav>
+    <p class="footer-copy"><em>Tuis</em> &mdash; Afrikaans for "at home" &middot; Built by <a href="https://lukeboyle.com">Luke Boyle</a></p>
+  </div>
+</footer>
+
+<button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+  <span class="icon-sun">&#x2600;</span>
+  <span class="icon-moon">&#x1F319;</span>
+</button>
+
+<script>
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme');
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+</script>
+
+</body>
+</html>
