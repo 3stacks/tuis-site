@@ -1,0 +1,11 @@
+{
+  "name": "tuis-site",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler pages deploy . --project-name=tuis-site",
+    "preview": "wrangler pages dev ."
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

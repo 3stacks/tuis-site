@@ -1,2 +1,8 @@
 .claude/
 .DS_Store
+node_modules/
+.wrangler/
+.playwright-mcp/
+*.db
+*.db-shm
+*.db-wal

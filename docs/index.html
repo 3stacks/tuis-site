@@ -147,21 +147,34 @@ docker cp tuis:/app/data/chore-calendar.db ./backup-$(date +%Y%m%d).db</code></p
           <tr>
             <td><code>GOOGLE_CLIENT_ID</code></td>
             <td>&mdash;</td>
-            <td>Google OAuth client ID (optional, for Google sign-in)</td>
+            <td>Optional. Google OAuth client ID for Google Calendar sync</td>
           </tr>
           <tr>
             <td><code>GOOGLE_CLIENT_SECRET</code></td>
             <td>&mdash;</td>
-            <td>Google OAuth client secret</td>
+            <td>Optional. Google OAuth client secret for Google Calendar sync</td>
           </tr>
         </tbody>
       </table>
 
+      <h3 id="google-calendar">Google Calendar sync</h3>
+      <p>The Google credentials are only needed if you want to sync chore due dates with Google Calendar. Without them, Tuis works fully standalone &mdash; you just won't get calendar integration.</p>
+      <p>To enable it, create a Google OAuth 2.0 client in the <a href="https://console.cloud.google.com/apis/credentials">Google Cloud Console</a> and set the <code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> environment variables.</p>
+
+      <div class="callout">
+        <p><strong>Roadmap:</strong> Support for syncing to other calendar providers (CalDAV, Outlook) is planned.</p>
+      </div>
+
       <h3 id="actual-budget">Actual Budget integration</h3>
       <p>Tuis integrates with <a href="https://actualbudget.org">Actual Budget</a> to display your home maintenance budget alongside vendor quotes. This helps you make informed decisions about home repairs and improvements.</p>
-      <p>To enable it, set <code>ACTUAL_API_URL</code> to your Actual Budget server address. If you run both on the same Docker network, you can use the container name:</p>
+      <p>Actual Budget doesn't expose its data externally by default. To bridge this gap, you'll need a lightweight API harness like <a href="https://github.com/3stacks/actual-widget-api">actual-widget-api</a> which makes your Actual data available over HTTP for Tuis to consume.</p>
+      <p>To enable it, set <code>ACTUAL_API_URL</code> to the URL of your API harness. If you run both on the same Docker network, you can use the container name:</p>
       <pre><code>environment:
-  - ACTUAL_API_URL=http://actual:5006</code></pre>
+  - ACTUAL_API_URL=http://actual-widget-api:3100</code></pre>
+
+      <div class="callout">
+        <p><strong>Roadmap:</strong> Support for other budgeting tools (PocketSmith, YNAB) is a stretch goal.</p>
+      </div>
 
       <h3 id="full-compose">Full Docker Compose example</h3>
       <p>Here's a complete example with all optional environment variables:</p>
@@ -184,6 +197,17 @@ docker cp tuis:/app/data/chore-calendar.db ./backup-$(date +%Y%m%d).db</code></p
 
 volumes:
   tuis-data:</code></pre>
+
+      <!-- Roadmap -->
+      <h2 id="roadmap">Roadmap</h2>
+      <p>Planned features and integrations:</p>
+      <ul>
+        <li><strong>Vehicle management</strong> &mdash; track cars, service history, fuel logs, registration, and insurance renewals</li>
+        <li><strong>MCP server</strong> &mdash; expose Tuis data via the Model Context Protocol so AI assistants and LLMs can read and manage your household</li>
+        <li><strong>CLI</strong> &mdash; command-line interface for scripting and LLM tool-use integration</li>
+        <li><strong>Calendar sync</strong> &mdash; CalDAV and Outlook support (currently Google Calendar only)</li>
+        <li><strong>Budget integrations</strong> &mdash; PocketSmith, YNAB, and other budgeting tools alongside Actual Budget</li>
+      </ul>
 
       <!-- Tech Stack -->
       <h2 id="tech-stack">Tech stack</h2>
@@ -211,8 +235,10 @@ volumes:
       <a href="#ios-companion">iOS companion</a>
       <a href="#configuration">Configuration</a>
       <a href="#environment-variables">Environment variables</a>
+      <a href="#google-calendar">Google Calendar</a>
       <a href="#actual-budget">Actual Budget</a>
       <a href="#full-compose">Full compose example</a>
+      <a href="#roadmap">Roadmap</a>
       <a href="#tech-stack">Tech stack</a>
     </nav>
   </div>
@@ -224,11 +250,12 @@ volumes:
     <nav class="footer-nav">
       <a href="/">Home</a>
       <span class="footer-sep" aria-hidden="true">&middot;</span>
-      <a href="https://github.com/3stacks/tuis">GitHub</a>
+      <a href="https://github.com/3stacks/tuis" target="_blank" rel="noopener noreferrer">GitHub</a>
       <span class="footer-sep" aria-hidden="true">&middot;</span>
-      <a href="https://github.com/3stacks/tuis-ios">iOS Companion</a>
+      <a href="https://github.com/3stacks/tuis-ios" target="_blank" rel="noopener noreferrer">iOS Companion</a>
     </nav>
     <p class="footer-copy"><em>Tuis</em> &mdash; Afrikaans for "at home" &middot; Built by <a href="https://lukeboyle.com">Luke Boyle</a></p>
+    <p class="footer-copy">Inspired by <a href="https://micasa.dev">micasa.dev</a></p>
   </div>
 </footer>
 
