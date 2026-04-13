@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Documentation &mdash; Tuis</title>
+  <title>Documentation | Tuis</title>
   <meta name="description" content="Installation guide, configuration, and self-hosting documentation for Tuis.">
   <link rel="icon" href="/logo.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/logo.svg">
@@ -72,12 +72,12 @@ docker compose up -d</code></pre>
       <h2 id="self-hosting">Self-hosting</h2>
 
       <div class="callout">
-        <p>Tuis is designed to run on your home network. Your household data &mdash; chores, meal plans, shopping lists, vendor details, financial quotes &mdash; stays on hardware you control. There are no cloud accounts, no telemetry, and no external dependencies.</p>
+        <p>Tuis is designed to run on your home network. Your household data (chores, meal plans, shopping lists, vendor details, financial quotes) stays on hardware you control. There are no cloud accounts, no telemetry, and no external dependencies.</p>
       </div>
 
       <h3 id="network-access">Network access</h3>
-      <p>Tuis is designed to be accessed via a WireGuard VPN. We use <a href="https://tailscale.com">Tailscale</a>, which takes about five minutes to set up and gives every device on your tailnet a stable IP. This means your data never leaves your network &mdash; no cloud accounts, no subscriptions, no data harvesting.</p>
-      <p>With Tailscale, you can access Tuis from your phone at the shops, from work, or from anywhere &mdash; without exposing any ports to the public internet.</p>
+      <p>Tuis is designed to be accessed via a WireGuard VPN. We use <a href="https://tailscale.com">Tailscale</a>, which takes about five minutes to set up and gives every device on your tailnet a stable IP. This means your data never leaves your network. No cloud accounts, no subscriptions, no data harvesting.</p>
+      <p>With Tailscale, you can access Tuis from your phone at the shops, from work, or from anywhere, without exposing any ports to the public internet.</p>
 
       <h3 id="reverse-proxy">Reverse proxy (HTTPS)</h3>
       <p>If you want HTTPS within your network (recommended), put Tuis behind a reverse proxy. <a href="https://caddyserver.com">Caddy</a> handles automatic TLS with minimal configuration:</p>
@@ -160,7 +160,7 @@ docker cp tuis:/app/data/chore-calendar.db ./backup-$(date +%Y%m%d).db</code></p
       </table>
 
       <h3 id="google-calendar">Google Calendar sync</h3>
-      <p>The Google credentials are only needed if you want to sync chore due dates with Google Calendar. Without them, Tuis works fully standalone &mdash; you just won't get calendar integration.</p>
+      <p>The Google credentials are only needed if you want to sync chore due dates with Google Calendar. Without them, Tuis works fully standalone. You just won't get calendar integration.</p>
       <p>To enable it, create a Google OAuth 2.0 client in the <a href="https://console.cloud.google.com/apis/credentials">Google Cloud Console</a> and set the <code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> environment variables.</p>
 
       <div class="callout">
@@ -204,11 +204,11 @@ volumes:
       <h2 id="roadmap">Roadmap</h2>
       <p>Planned features and integrations:</p>
       <ul>
-        <li><strong>Vehicle management</strong> &mdash; track cars, service history, fuel logs, registration, and insurance renewals</li>
-        <li><strong>MCP server</strong> &mdash; expose Tuis data via the Model Context Protocol so AI assistants and LLMs can read and manage your household</li>
-        <li><strong>CLI</strong> &mdash; command-line interface for scripting and LLM tool-use integration</li>
-        <li><strong>Calendar sync</strong> &mdash; CalDAV and Outlook support (currently Google Calendar only)</li>
-        <li><strong>Budget integrations</strong> &mdash; PocketSmith, YNAB, and other budgeting tools alongside Actual Budget</li>
+        <li><strong>Vehicle management</strong>: track cars, service history, fuel logs, registration, and insurance renewals</li>
+        <li><strong>MCP server</strong>: expose Tuis data via the Model Context Protocol so AI assistants and LLMs can read and manage your household</li>
+        <li><strong>CLI</strong>: command-line interface for scripting and LLM tool-use integration</li>
+        <li><strong>Calendar sync</strong>: CalDAV and Outlook support (currently Google Calendar only)</li>
+        <li><strong>Budget integrations</strong>: PocketSmith, YNAB, and other budgeting tools alongside Actual Budget</li>
       </ul>
 
       <!-- Tech Stack -->
@@ -256,7 +256,7 @@ volumes:
       <span class="footer-sep" aria-hidden="true">&middot;</span>
       <a href="https://github.com/3stacks/tuis-ios" target="_blank" rel="noopener noreferrer">iOS Companion</a>
     </nav>
-    <p class="footer-copy"><em>Tuis</em> &mdash; Afrikaans for "at home" &middot; Built by <a href="https://lukeboyle.com">Luke Boyle</a></p>
+    <p class="footer-copy"><em>Tuis</em> &middot; Afrikaans for "at home" &middot; Built by <a href="https://lukeboyle.com">Luke Boyle</a></p>
     <p class="footer-copy">Inspired by <a href="https://micasa.dev">micasa.dev</a></p>
   </div>
 </footer>
